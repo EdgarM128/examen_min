@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block t %}Solicitudes{% endblock %}
+
+{% block c %}
+<h1>{{ 'Solicitudes por autorizar' if session.rol == 'gerente' else 'Mis solicitudes' }}</h1>
+
+{% if session.rol == 'tecnico' %}
+<div class="card">
+    <h3>Nueva solicitud</h3>
+    <form class="row" method="post" action="{{ url_for('solicitud_nueva') }}">
+        <select name="codigo" aria-label="Pieza">
+            {% for p in ps %}
+                <option value="{{ p.codigo }}" {{ 'selected' if p.codigo == sel }}>{{ p.codigo }} · {{ p.nombre }} ({{ p.cantidad }})</option>
+            {% endfor %}
+        </select>
+        <input name="cantidad" type="number" min="1" value="1" aria-label="Cantidad">
+        <button>Enviar solicitud</button>
+    </form>
+</div>
+{% endif %}
+
+<div class="card">
+    <table>
+        <tr>
+            <th>Folio</th>
+            <th>Fecha</th>
+            {% if session.rol == 'gerente' %}<th>Solicitante</th>{% endif %}
+            <th>Pieza</th>
+            <th>Cant.</th>
+            <th>Disp.</th>
+            <th>Estado</th>
+            {% if session.rol == 'gerente' %}<th>Acción</th>{% endif %}
+        </tr>
+        {% for r in rows %}
+        <tr>
+            <td>SOL-{{ r.id }}</td>
+            <td>{{ r.fecha }}</td>
+            {% if session.rol == 'gerente' %}<td>{{ r.solicitante }}</td>{% endif %}
+            <td>{{ r.codigo }} · {{ r.nombre or '(eliminada)' }}</td>
+            <td>{{ r.cantidad }}</td>
+            <td>{{ r.disp or 0 }}</td>
+            <td><span class="tag {{ r.estado }}">{{ r.estado }}</span></td>
+            {% if session.rol == 'gerente' %}
+            <td>
+                {% if r.estado == 'Pendiente' %}
+                <form class="inl" method="post" action="{{ url_for('solicitud_resolver', sid=r.id) }}">
+                    <button class="ok" name="accion" value="aprobar">Aprobar</button>
+                    <button class="no" name="accion" value="rechazar">Rechazar</button>
+                </form>
+                {% else %}
+                —
+                {% endif %}
+            </td>
+            {% endif %}
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="8">Sin solicitudes.</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

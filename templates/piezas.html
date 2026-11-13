@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block t %}Piezas{% endblock %}
+
+{% block c %}
+<h1>Piezas</h1>
+<div class="card">
+    <form class="row" method="get" style="margin-bottom:10px">
+        <input name="q" value="{{ q }}" placeholder="Buscar por código, nombre o ubicación" aria-label="Buscar">
+        <select name="cat" aria-label="Categoría">
+            <option value="">Todas las categorías</option>
+            {% for c in cats %}
+                <option {{ 'selected' if c == cat }}>{{ c }}</option>
+            {% endfor %}
+        </select>
+        <button>Buscar</button>
+        {% if session.rol == 'admin' %}
+            <a class="btn" href="{{ url_for('pieza_form') }}">Agregar pieza</a>
+        {% endif %}
+    </form>
+
+    <table>
+        <tr>
+            <th>Código</th>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>Cant.</th>
+            <th>Mín.</th>
+            <th>Ubicación</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+        {% for p in ps %}
+            {% set e = estado(p) %}
+            <tr>
+                <td>{{ p.codigo }}</td>
+                <td>{{ p.nombre }}</td>
+                <td>{{ p.categoria }}</td>
+                <td><b>{{ p.cantidad }}</b></td>
+                <td>{{ p.minimo }}</td>
+                <td>{{ p.ubicacion }}</td>
+                <td><span class="tag {{ e[1] }}">{{ e[0] }}</span></td>
+                <td>
+                    {% if session.rol == 'admin' %}
+                        <a class="btn g" href="{{ url_for('pieza_form', codigo=p.codigo) }}">Editar</a>
+                        <form class="inl" method="post" action="{{ url_for('pieza_entrada', codigo=p.codigo) }}">
+                            <input name="cantidad" type="number" min="1" placeholder="Cant." aria-label="Cantidad a recibir">
+                            <button class="g">Recibir</button>
+                        </form>
+                        <form class="inl" method="post" action="{{ url_for('pieza_eliminar', codigo=p.codigo) }}" onsubmit="return confirm('¿Eliminar {{ p.codigo }}?')">
+                            <button class="no">Eliminar</button>
+                        </form>
+                    {% elif session.rol == 'tecnico' %}
+                        <a class="btn g" href="{{ url_for('solicitudes', pieza=p.codigo) }}">Solicitar</a>
+                    {% else %}
+                        —
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">Sin resultados.</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

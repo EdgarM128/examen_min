@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block t %}Pieza{% endblock %}
+
+{% block c %}
+<h1>{{ 'Editar' if p.codigo and request.endpoint == 'pieza_form' and request.view_args.codigo else 'Agregar' }} pieza</h1>
+
+<div class="card" style="max-width:420px">
+    <form method="post">
+        <label>Código</label>
+        <input name="codigo" value="{{ p.codigo or '' }}" {{ 'disabled' if request.view_args.codigo }} required>
+        
+        <label>Nombre</label>
+        <input name="nombre" value="{{ p.nombre or '' }}" required>
+        
+        <label>Categoría</label>
+        <input name="categoria" value="{{ p.categoria or '' }}" required>
+        
+        <label>Cantidad</label>
+        <input name="cantidad" type="number" min="0" value="{{ p.cantidad if p.cantidad is not none else 0 }}" required>
+        
+        <label>Stock mínimo</label>
+        <input name="minimo" type="number" min="0" value="{{ p.minimo if p.minimo is not none else 5 }}" required>
+        
+        <label>Ubicación</label>
+        <input name="ubicacion" value="{{ p.ubicacion or '' }}" required>
+        
+        <p class="row">
+            <button>Guardar</button>
+            <a class="btn g" href="{{ url_for('piezas') }}">Cancelar</a>
+        </p>
+    </form>
+</div>
+{% endblock %}

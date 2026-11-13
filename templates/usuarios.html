@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block t %}Usuarios{% endblock %}
+
+{% block c %}
+<h1>Usuarios</h1>
+<div class="card">
+    <h3>Agregar usuario</h3>
+    <form class="row" method="post">
+        <input name="usuario" placeholder="Usuario" aria-label="Usuario" required>
+        <input name="nombre" placeholder="Nombre" aria-label="Nombre" required>
+        <input name="clave" type="password" placeholder="Contraseña" aria-label="Contraseña" required>
+        <select name="rol" aria-label="Rol">
+            <option value="tecnico">Técnico</option>
+            <option value="gerente">Gerente</option>
+            <option value="admin">Administrador</option>
+        </select>
+        <button>Guardar</button>
+    </form>
+</div>
+
+<div class="card">
+    <table>
+        <tr>
+            <th>Usuario</th>
+            <th>Nombre</th>
+            <th>Rol</th>
+            <th>Acción</th>
+        </tr>
+        {% for u in us %}
+        <tr>
+            <td>{{ u.usuario }}</td>
+            <td>{{ u.nombre }}</td>
+            <td>{{ u.rol }}</td>
+            <td>
+                {% if u.id != session.uid %}
+                <form class="inl" method="post" action="{{ url_for('usuario_eliminar', uid=u.id) }}" onsubmit="return confirm('¿Eliminar a {{ u.usuario }}?')">
+                    <button class="no">Eliminar</button>
+                </form>
+                {% else %}
+                —
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

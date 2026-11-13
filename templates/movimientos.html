@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block t %}Movimientos{% endblock %}
+
+{% block c %}
+<h1>Movimientos</h1>
+<div class="card">
+    <table>
+        <tr>
+            <th>Fecha</th>
+            <th>Tipo</th>
+            <th>Pieza</th>
+            <th>Cant.</th>
+            <th>Usuario</th>
+            <th>Nota</th>
+        </tr>
+        {% for m in rows %}
+        <tr>
+            <td>{{ m.fecha }}</td>
+            <td><span class="tag {{ 'ok' if m.tipo == 'Entrada' else 'lo' }}">{{ m.tipo }}</span></td>
+            <td>{{ m.codigo }}</td>
+            <td>{{ m.cantidad }}</td>
+            <td>{{ m.usuario }}</td>
+            <td>{{ m.nota }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block t %}Dashboard{% endblock %}
+
+{% block c %}
+<h1>Dashboard <small style="font-size:16px;color:var(--mu)">Control de inventario</small></h1>
+
+<div class="grid">
+    <div class="k a"><b>{{ n.total }}</b>Total de piezas</div>
+    <div class="k ok"><b>{{ n.ok }}</b>En stock</div>
+    <div class="k lo"><b>{{ n.lo }}</b>Stock bajo</div>
+    <div class="k no"><b>{{ n.no }}</b>Sin stock</div>
+</div>
+
+{% set t = n.total or 1 %}
+
+<div class="grid two">
+    <div class="card">
+        <h3>Resumen general</h3>
+        <div class="bar">
+            <i style="width:{{ n.ok/t*100 }}%;background:var(--ok)"></i>
+            <i style="width:{{ n.lo/t*100 }}%;background:#f0b400"></i>
+            <i style="width:{{ n.no/t*100 }}%;background:var(--no)"></i>
+        </div>
+        <p>En stock {{ '%.1f'|format(n.ok/t*100) }}% · Stock bajo {{ '%.1f'|format(n.lo/t*100) }}% · Sin stock {{ '%.1f'|format(n.no/t*100) }}%</p>
+        <p>Solicitudes pendientes: <b>{{ pend }}</b></p>
+        <a class="btn" href="{{ url_for('piezas') }}">Ver piezas</a>
+    </div>
+
+    <div class="card">
+        <h3>Alertas de inventario</h3>
+        <table>
+            <tr>
+                <th>Código</th>
+                <th>Descripción</th>
+                <th>Stock</th>
+                <th>Mínimo</th>
+            </tr>
+            {% for p in alertas %}
+            <tr>
+                <td>{{ '⚠️' if p.cantidad else '❌' }} {{ p.codigo }}</td>
+                <td>{{ p.nombre }}</td>
+                <td style="color:var(--no);font-weight:700">{{ p.cantidad }}</td>
+                <td>{{ p.minimo }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4">Sin alertas.</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+<div class="card">
+    <h3>Flujo de solicitud de piezas</h3>
+    <p>1. El técnico crea una solicitud → 2. El gerente aprueba o rechaza → 3. El sistema actualiza el inventario → 4. Se registra el movimiento.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block t %}Reportes{% endblock %}
+
+{% block c %}
+<h1>Reportes</h1>
+<div class="grid">
+    <div class="k ok"><b>{{ tot.Entrada }}</b>Unidades recibidas</div>
+    <div class="k lo"><b>{{ tot.Salida }}</b>Unidades entregadas</div>
+</div>
+
+<div class="grid two">
+    <div class="card">
+        <h3>Inventario por categoría</h3>
+        <table>
+            <tr>
+                <th>Categoría</th>
+                <th>Piezas</th>
+                <th>Unidades</th>
+                <th>En alerta</th>
+            </tr>
+            {% for c in cats %}
+            <tr>
+                <td>{{ c.categoria }}</td>
+                <td>{{ c.n }}</td>
+                <td>{{ c.u }}</td>
+                <td>{{ c.a }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="card">
+        <h3>Piezas más solicitadas</h3>
+        <table>
+            <tr>
+                <th>Pieza</th>
+                <th>Unidades entregadas</th>
+            </tr>
+            {% for t in top %}
+            <tr>
+                <td>{{ t.codigo }} · {{ t.nombre }}</td>
+                <td>{{ t.t }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="2">Sin salidas registradas.</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

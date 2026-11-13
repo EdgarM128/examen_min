@@ -1,0 +1,24 @@
+:root{--bg:#eef2f7;--card:#fff;--tx:#14233c;--mu:#5b6b82;--nav:#0f2347;--pri:#1f5fbf;--bd:#d9e1ec;--ok:#1e8a3c;--okb:#dff3e4;--lo:#b07a00;--lob:#fff1c7;--no:#c42a35;--nob:#fde1e3;--inf:#dbeafe}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 "Segoe UI",Roboto,Arial,sans-serif}
+h1,h2,h3{margin:0 0 8px}h1{color:var(--pri);font-size:26px}
+header{background:var(--nav);color:#fff;display:flex;gap:6px;align-items:center;padding:8px 14px;flex-wrap:wrap}
+header b{font-size:22px;margin-right:10px}header a{color:#cfe0ff;text-decoration:none;padding:8px 12px;border-radius:6px}
+header a.on,header a:hover{background:#3b82d6;color:#fff}header .sp{flex:1}header span{font-size:13px;color:#cfe0ff}
+main{padding:16px;max-width:1100px;margin:auto}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:14px;margin-bottom:12px;overflow-x:auto}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));margin-bottom:12px}
+.two{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.k{border-radius:8px;padding:12px;text-align:center}.k b{display:block;font-size:28px}
+.k.a{background:var(--inf)}.k.ok{background:var(--okb);color:var(--ok)}.k.lo{background:var(--lob);color:var(--lo)}.k.no{background:var(--nob);color:var(--no)}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{padding:8px 6px;text-align:left;border-bottom:1px solid var(--bd);white-space:nowrap}th{color:var(--mu);font-size:13px}
+.tag{padding:2px 8px;border-radius:10px;font-size:12px;font-weight:600}
+.ok.tag,.tag.Aprobada{background:var(--okb);color:var(--ok)}.lo.tag,.tag.Pendiente{background:var(--lob);color:var(--lo)}.no.tag,.tag.Rechazada{background:var(--nob);color:var(--no)}
+button,.btn{cursor:pointer;border:0;border-radius:6px;padding:8px 12px;background:var(--pri);color:#fff;font:inherit;font-weight:600;text-decoration:none;display:inline-block}
+.g{background:transparent;color:var(--pri);border:1px solid var(--bd)}button.ok{background:var(--ok)}button.no{background:var(--no)}
+input,select{padding:9px 10px;border:1px solid var(--bd);border-radius:6px;font:inherit;width:100%}
+label{display:block;font-size:13px;color:var(--mu);margin:10px 0 3px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.row input,.row select{flex:1;min-width:140px;width:auto}
+form.inl{display:inline-flex;gap:4px}form.inl input{width:70px;padding:6px}
+.flash{padding:10px 14px;border-radius:8px;margin-bottom:12px}.flash.ok{background:var(--okb);color:var(--ok)}.flash.no{background:var(--nob);color:var(--no)}
+.login{max-width:380px;margin:8vh auto}.bar{display:flex;height:16px;border-radius:8px;overflow:hidden;margin:8px 0}
+:focus-visible{outline:3px solid #f5a524;outline-offset:2px}

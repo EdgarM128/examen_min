@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>MIN · {% block t %}Inventario{% endblock %}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    
+    <body>
+        {% if session.uid %}
+            {% set menu = {
+                'admin': [('dashboard', 'Dashboard'), ('piezas', 'Piezas'), ('movimientos', 'Movimientos'), ('usuarios', 'Usuarios')],
+                'gerente': [('dashboard', 'Dashboard'), ('piezas', 'Piezas'), ('solicitudes', 'Solicitudes'), ('movimientos', 'Movimientos'), ('reportes', 'Reportes')],
+                'tecnico': [('dashboard', 'Dashboard'), ('piezas', 'Piezas'), ('solicitudes', 'Mis solicitudes')]
+            }[session.rol] %}
+            
+            <header>
+                <b>MIN</b>
+                {% for e, n in menu %}
+                    <a href="{{ url_for(e) }}" class="{{ 'on' if request.endpoint == e }}">{{ n }}</a>
+                {% endfor %}
+                <span class="sp"></span>
+                <span>{{ session.nombre }} ({{ session.rol }})</span>
+                <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+            </header>
+        {% endif %}
+        
+        <main>
+            {% for c, m in get_flashed_messages(with_categories=true) %}
+                <div class="flash {{ c }}" role="status">{{ m }}</div>
+            {% endfor %}
+            {% block c %}{% endblock %}
+        </main>
+    </body>
+</html>
